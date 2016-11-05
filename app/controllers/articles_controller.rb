@@ -36,7 +36,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.all
+    @article = Article.find(params[:id])
   end
 
   def index
