@@ -1,5 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: [:edit, :update, :destroy, :show]
+  before_action :require_user, except: [:index,:show]
+  before_action :require_same_user, only: [:edit, :update]
 
   def new
     @article = Article.new
@@ -10,11 +12,11 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    debugger
+    # debugger
     # @article = Article.new(article_params)
     # @article.save
     @article = Article.new(article_params)
-    @article.user = User.first
+    @article.user = current_user
 
     if @article.save
       flash[:success] = "Article was succesfully created"
@@ -40,7 +42,7 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @article = Article.all
+    @articles = Article.paginate(page: params[:page], per_page:5)
   end
 
   def destroy
@@ -58,4 +60,12 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit(:title, :description)
   end
+
+  def require_same_user
+    if current_user != @article.user and !current_user.admin?
+      flash[:danger] = "You can only delete or edit your own article"
+      redirect_to root_path
+    end
+  end
+
 end
