@@ -87,17 +87,22 @@ $navbar-default-bg: #00008B;
 }
 
 .article-meta-details {
-
   border-top: 1px solid #eaeaea;
-
   margin-top: 15px;
+}
 
+.badge {
+  background-color: #CEF6F5;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  font-weight: bold;
+}
+
+.input_checkbox input {
+  width: auto !important;
 }
 
 .listing {
-
   list-style: none;
-
   padding-left: 0;
-
 }
